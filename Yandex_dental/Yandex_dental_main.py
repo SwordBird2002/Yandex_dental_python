@@ -37,7 +37,7 @@ scroller_sleep = 2
 tel_instance_sleep = 3
 short_sleep = 5
 long_sleep = 10
-city = "City_goes_here"
+city = "CITY_GOES_HERE"
 newline = '\n'
 
 #Getting a unique, updating cell ID for entering a city. 
@@ -67,7 +67,7 @@ def YM_entry(by_city):
          for window in child_handle:
              if(window!=page_handle):
                  YM_browser.switch_to.window(window)
-         # Проверка корректности ссылки на город по поисковому запросу   
+         # Checking the correctness of the link to the city in the search query   
          global city_url
          city_url = YM_browser.current_url 
          print(city_url)
@@ -137,7 +137,7 @@ def YM_scroller():
      YM_browser_inst_3 = web_driver()   
      #YM_browser_inst_3.minimize_window()     
      YM_browser_inst_3.request_interceptor = interceptor
-     YM_browser_inst_3.get(yandex_url + private_dental_href) #ЗАМЕНИТЬ НА public_dental_href ДЛЯ ЧАСТНЫХ КЛИНИК
+     YM_browser_inst_3.get(yandex_url + private_dental_href) # REPLACE WITH public_dental_href FOR PRIVATE CLINICS
      time.sleep(short_sleep)
      scroll(YM_browser_inst_3)
      time.sleep(long_sleep)
@@ -146,7 +146,7 @@ def YM_scroller():
      page_private_dental = BeautifulSoup(dental_scrolled, 'html.parser')
      global all_private_dental_list 
      all_private_dental_list = page_private_dental.find_all('li', class_="search-snippet-view")
-     print('Собрано элементов: {}'.format(len(all_private_dental_list)))
+     print('Collected items: {}'.format(len(all_private_dental_list)))
      YM_browser_inst_3.quit()
 
 # Collecting phone numbers
@@ -201,7 +201,7 @@ def dental_source_processor():
                     file.write(phone_number)
                     file.write(newline)
                     file.write(newline)
-                    print('Значение записано с телефоном: {}'.format(dental_title))
+                    print('Value recorded with phone number: {}'.format(dental_title))
                     time.sleep(write_sleep)
                     
             except Exception:
@@ -211,7 +211,7 @@ def dental_source_processor():
                 file.write(dental_adress)
                 file.write(newline)
                 file.write(newline)
-                print('Значение записано без телефона: {}'.format(dental_title))
+                print('Value recorded without phone number: {}'.format(dental_title))
                 time.sleep(write_sleep)
                 
     file.close()
