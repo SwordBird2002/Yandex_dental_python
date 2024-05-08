@@ -37,10 +37,10 @@ scroller_sleep = 2
 tel_instance_sleep = 3
 short_sleep = 5
 long_sleep = 10
-city = "Бахчисарай"
+city = "City_goes_here"
 newline = '\n'
 
-#Получение уникального обновляющегося идентификатора ячейки для ввода города. 
+#Getting a unique, updating cell ID for entering a city. 
 
 def YM_entry(by_city):
      YM_browser = web_driver()    
@@ -54,7 +54,7 @@ def YM_entry(by_city):
      print('Input id: {}'.format(input_element_id))
     
      try:
-         # Непосредственный поиск по городу из значения city
+         # Direct search by city from the city value
          time.sleep(long_sleep)
          search_by_city = WebDriverWait(YM_browser, timeout).until(EC.presence_of_element_located((By.ID, input_element_id)))
          search_by_city.send_keys(by_city)
@@ -63,7 +63,7 @@ def YM_entry(by_city):
          YM_citysource = YM_browser.page_source
          page_handle = YM_browser.current_window_handle
          child_handle = YM_browser.window_handles
-         # Переключение на новую открытую вкладку
+         # Switch to a new open tab
          for window in child_handle:
              if(window!=page_handle):
                  YM_browser.switch_to.window(window)
@@ -76,7 +76,8 @@ def YM_entry(by_city):
          YM_browser.quit()
  
  
-# Функция пролистывания каретки самоподгружающегося окна
+
+# Self-loading window caret swipe function
 def scroll(browser):
     
     element = browser.find_element(By.CSS_SELECTOR, "div.scroll__scrollbar-thumb")
@@ -102,7 +103,7 @@ def scroll(browser):
          
    
    
-# Парсинг списка организаций по городу и поиск стоматологических клиник
+# Parsing the list of organizations by city and searching for dental clinics
 def YM_dental():
      YM_browser_inst_2 = web_driver()    
      YM_browser_inst_2.minimize_window()
@@ -127,10 +128,10 @@ def YM_dental():
      global  private_dental_href
      private_dental_href = dental_selector_soup.find('a', title = 'Стоматологическая клиника').get('href')
      #global public_dental_href
-     #public_dental_href = dental_selector_soup.find('a', title = 'Стоматологическая поликлиника').get('href') # ДЛЯ ГОСУДАРСТВЕННЫХ КЛИНИК
+     #public_dental_href = dental_selector_soup.find('a', title = 'Стоматологическая поликлиника').get('href') # FOR PUBLIC CLINICS
      YM_browser_inst_2.quit()
 
-# Пролистывание и сбор клиник
+# Browse and collect clinics
 def YM_scroller():
      global YM_browser_inst_3
      YM_browser_inst_3 = web_driver()   
@@ -148,7 +149,7 @@ def YM_scroller():
      print('Собрано элементов: {}'.format(len(all_private_dental_list)))
      YM_browser_inst_3.quit()
 
-# Сбор телефонных номеров
+# Collecting phone numbers
 def tel_browser_instance(link):
     global tel_instance
     tel_instance = web_driver()
@@ -161,7 +162,7 @@ def tel_browser_instance(link):
     except Exception: 
         pass
     
-# Сбор названия, заголовка и номера
+# Collect title, title, and number
 def dental_source_processor():
     citystr = str('{}.txt').format(city)
     with open(citystr, 'w') as file:
@@ -190,7 +191,7 @@ def dental_source_processor():
             try:
                 phone_number = customer_page_soup.find('span', itemprop='telephone').text
   
-# Запись в файл
+# Write to file
                 if phone_number is not None:
                 
                     file.write(dental_title)
@@ -221,8 +222,10 @@ def dental_source_processor():
 
 
 if __name__ == "__main__":  
-    Check_driver() #УСТАНАВЛИВАЕТ НА КОМПЬЮТЕР ДРАЙВЕР ДЛЯ БРАУЗЕРА CHROME, ЕСЛИ НЕ НАЙДЕН В ПАПКЕ WDM И ПРОВЕРЯЕТ ЕГО НАЛИЧИЕ
-    web_driver() #Инициализация
+    Check_driver() 
+    # INSTALLS THE CHROME BROWSER DRIVER ON YOUR COMPUTER IF IT IS NOT FOUND IN THE WDM FOLDER AND CHECKS FOR ITS PRESENCE
+    web_driver() 
+    # Initialization
     #Test_unit()
     YM_entry(city) 
     YM_dental()
