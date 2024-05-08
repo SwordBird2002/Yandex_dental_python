@@ -17,7 +17,7 @@ def Check_driver():
         pass
         
     else:
-        print('Установка ChromeDriver...')
+        print('Installing ChromeDriver...')
         chromeinstaller_service = ChromeDriverManager(version = chromedriver_version).install()
         webdriver.Chrome(chromeinstaller_service)
-        print('ChromeDriver установлен.')
+        print('ChromeDriver successfully installed.')
